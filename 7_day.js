@@ -34,5 +34,20 @@ fs.readFile('7_input', 'utf8', function (err,data) {
         addToSet(bags, iterator);
     }
     console.log(countSet.size)
-    
+
+    // Second
+ 
+    function countBags(object, currentBag) {
+        console.log(currentBag, ":", object[currentBag])
+        if (object[currentBag]) {
+            let countBagsRec = 0;
+            for (const key in object[currentBag]) {
+                countBagsRec += object[currentBag][key] + object[currentBag][key] * countBags(object, key)
+            }
+            return countBagsRec
+        } else {
+            return 0;
+        }
+    }
+    console.log(countBags(bags, "shiny gold"))
 });
