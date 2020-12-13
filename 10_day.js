@@ -11,7 +11,7 @@ fs.readFile('10_input', 'utf8', function (err,data) {
     // First
     let arraySort = array.sort((a, b) => a - b)
     arraySort.push(arraySort[arraySort.length-1] + 3);
-    arraySort.unshift(0)
+    
     let one = 0;
     let two = 0;
     let three = 0;
@@ -32,10 +32,33 @@ fs.readFile('10_input', 'utf8', function (err,data) {
         return one * three
     }
    
-    console.log(findArray(arraySort, 1))
+    console.log(findArray(arraySort))
 
     // Second
-    
 
+    // arraySort.unshift(0)
+    // arraySort.pop()
+    // let count = 0;
+    // for (let i = arraySort.length - 3; i >= 0; i--) {
+    //     let arrayRest = arraySort.slice(i+1, i+4)
+    //     console.log(arrayRest)
+    //     let currentCount = 0
+    //     for (let j = 0; j < arrayRest.length; j++) {
+    //         if (arrayRest[j]-arraySort[i] === 1) {
+    //             currentCount ++;
+    //         }
+    //         if (arraySort[j]-arraySort[i] === 2) {
+    //             currentCount ++;
+    //         }
+    //         if (arraySort[j]-arraySort[i] === 3) {
+    //             currentCount ++;
+    //         }
+    //     }
+    //     count = count + currentCount
+        
+        
+        
+    // }
+    // console.log(count)
 
 });
