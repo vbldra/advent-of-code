@@ -49,7 +49,7 @@ fs.readFile("4_input.txt", "utf8", function (err, data) {
     if (isNumberHere) {
       let index = card.indexOf(number);
       card[index] = " X";
-      let rem = index % 5
+      let rem = index % 5;
       let col = card.filter((e, i) => i % 5 == rem && e == " X");
       // console.log(col);
       let minNow = Math.floor(index / 5) * 5;
@@ -70,28 +70,43 @@ fs.readFile("4_input.txt", "utf8", function (err, data) {
     for (let i = 0; i < numbers.length; i++) {
       for (let j = 0; j < currentGameCards.length; j++) {
         currentGameCards[j] = markOneCard(currentGameCards[j], numbers[i]);
-        // console.log(numbers[i]);
-        // printCard(currentGameCards[j])
         if (currentGameCards[j][0] == "W") {
           winner = currentGameCards[j];
-          printCard(winner[1]);
           break;
         }
       }
       if (winner) {
-        break
+        break;
       }
     }
     let unmarked = winner[1].filter((e) => e != " X");
     let sum = unmarked.reduce((acc, a) => acc + a, 0);
+    printCard(winner[1]);
     return winner[2] * sum;
   }
   console.log("---=== 1 task ===---");
-  // findWinner(arrayOfNumbers, bingoCards);
   console.log("Winner: " + findWinner(arrayOfNumbers, bingoCards));
 
   // Second task
-  function lagerSumMeasurements(array) {}
+  function findLastWinner(numbers, cards) {
+    let currentGameCards = cards;
+    let winningCards = [];
+    for (let i = 0; i < numbers.length; i++) {
+      for (let j = 0; j < currentGameCards.length; j++) {
+        currentGameCards[j] = markOneCard(currentGameCards[j], numbers[i]);
+        if (currentGameCards[j][0] == "W") {
+          winner = currentGameCards[j];
+          currentGameCards[j][0] = "M";
+          winningCards.push(currentGameCards[j]);
+        }
+      }
+    }
+    let lastWinner = winningCards.pop();
+    printCard(lastWinner[1]);
+    let unmarked = lastWinner[1].filter((e) => e != " X");
+    let sum = unmarked.reduce((acc, a) => acc + a, 0);
+    return lastWinner[2] * sum;
+  }
   console.log("---=== 2 task ===---");
-  // console.log("Maximum of sum: " + lagerSumMeasurements(arrayOfNumbers));
+  console.log("Last winner: " + findLastWinner(arrayOfNumbers, bingoCards));
 });
