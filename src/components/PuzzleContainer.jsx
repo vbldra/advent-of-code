@@ -1,6 +1,7 @@
+import React from "react";
 import Result from "./Result";
 import { useState } from "react";
-import { findSum, findSumThreeBest } from "../puzzle-context";
+import { puzzleFunc } from "../context/puzzle-context";
 
 function PuzzleContainer(props) {
   const [entry, setEntry] = useState("");
@@ -9,12 +10,7 @@ function PuzzleContainer(props) {
   const handleSubmit = (event) => {
     event.preventDefault();
     let arrayOfStrings = entry.split(`\n`);
-    let arrayOfNumbers = [];
-    // Converting array of string to array of numbers
-    for (let i = 0; i < arrayOfStrings.length; i++) {
-      arrayOfNumbers.push(Number(arrayOfStrings[i]));
-    }
-    setResult([findSum(arrayOfNumbers), findSumThreeBest(arrayOfNumbers)]);
+    setResult(puzzleFunc(arrayOfStrings, props.day));
   };
 
   return (
@@ -23,15 +19,16 @@ function PuzzleContainer(props) {
       <form onSubmit={handleSubmit}>
         <label>
           <textarea
-            rows="10"
-            cols="50"
+            rows="8"
+            cols="40"
             value={entry}
             onChange={(e) => setEntry(e.target.value)}
           />
         </label>
-        <input type="submit" />
+        <button type="submit" >Show result</button>
       </form>
-      <Result result={result} />
+      {result ? <Result result={result} /> : <p>No answer</p>}
+      <hr />
     </div>
   );
 }

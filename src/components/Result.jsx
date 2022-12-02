@@ -1,4 +1,5 @@
-import puzzleContext from '../puzzle-context';
+import React from "react";
+import puzzleContext from '../context/puzzle-context';
 
 function Result(props) {
   return (
