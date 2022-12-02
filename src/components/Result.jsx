@@ -1,8 +1,10 @@
+import puzzleContext from '../puzzle-context';
 
-function Result() {
+function Result(props) {
   return (
     <div className="Result">
-      Result
+      <p>1 task: {props.result[0]}</p>
+      <p>2 task: {props.result[1]}</p>
     </div>
   );
 }
