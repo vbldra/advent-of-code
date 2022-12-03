@@ -7,6 +7,7 @@ function App() {
   let donePuzzles = [...Array(24).fill(false)]
   donePuzzles[0]= true
   donePuzzles[1]= true
+  donePuzzles[2]= true
   return (
     <div className="App">
       <h1>Advent of code 2022</h1>
