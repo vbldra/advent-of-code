@@ -1,0 +1,15 @@
+nav ul{
+  display: flex;
+}
+nav li {
+  list-style-type: none;
+  padding: 5px 10px;
+  background: lightcyan;
+  margin-left: 2px;
+  border-radius: 2px;  
+}
+
+.not-done {
+  pointer-events: none;
+    opacity: 0.4;
+}

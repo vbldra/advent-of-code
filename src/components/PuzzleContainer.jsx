@@ -28,7 +28,6 @@ function PuzzleContainer(props) {
         <button type="submit" >Show result</button>
       </form>
       {result ? <Result result={result} /> : <p>No answer</p>}
-      <hr />
     </div>
   );
 }
