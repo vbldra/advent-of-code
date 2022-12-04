@@ -103,6 +103,39 @@ function puzzleFunc(array, day) {
       }
       return day3;
 
+    case 4:
+      let day4 = [null, null];
+      {
+        let sum1 = 0;
+        let sum2 = 0;
+        // first task
+        let arrayOfNumbers = array.map((group) => {
+          let newGroup = group.split(",").map((el) => {
+            return el.split("-").map((str) => Number(str));
+          });
+          return newGroup[0].concat(newGroup[1]);
+        });
+        arrayOfNumbers.map((group) => {
+          let first = Math.sign(group[0] - group[2]);
+          let second = Math.sign(group[1] - group[3]);
+          if (first !== second || (first === 0 && second === 0)) {
+            sum1 = sum1 + 1;
+          }
+        });
+        //second task
+        arrayOfNumbers.map((group) => {
+          for (let i = group[0]; i <= group[1]; i++) {
+            if (i >= group[2] && i <= group[3]) {
+              sum2 = sum2 + 1;
+              break;
+            }
+          }
+        });
+        day4[0] = sum1;
+        day4[1] = sum2;
+      }
+      return day4;
+
     default:
       break;
   }
