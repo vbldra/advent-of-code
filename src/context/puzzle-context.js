@@ -136,6 +136,52 @@ function puzzleFunc(array, day) {
       }
       return day4;
 
+    case 5:
+      let day5 = [null, null];
+      {
+        // first task
+        let moves = array.join("\n").split(/\r?\n/);
+        let stack = moves.splice(0, moves.indexOf(""));
+        moves.shift();
+        let newStack = [];
+        let indexes = [];
+        for (let i = 0; i < stack[stack.length - 1].length; i++) {
+          if (stack[stack.length - 1][i] !== " ") {
+            newStack.push([Number(stack[stack.length - 1][i])]);
+            indexes.push(Number(i));
+          }
+        }
+        for (let i = stack.length - 2; i >= 0; i--) {
+          indexes.map((letter, index) => {
+            stack[i][letter] !== " " && newStack[index].push(stack[i][letter]);
+          });
+        }
+        let newNewStack = JSON.parse(JSON.stringify(newStack))
+        
+        for (let i = 0; i < moves.length; i++) {
+          let result = moves[i].match(/\d+/g);
+          let num = result.map((e) => Number(e))
+          let stringToMove = newStack[num[1]-1].splice(-num[0]).reverse()
+          let newLine = newStack[num[2]-1].concat(...stringToMove)
+          newStack[num[2]-1] = newLine
+        }
+        let res = newStack.map(el=>el.slice(-1))
+        
+        //second task
+        for (let i = 0; i < moves.length; i++) {
+          let result = moves[i].match(/\d+/g);
+          let num = result.map((e) => Number(e))
+          let stringToMove = newNewStack[num[1]-1].splice(-num[0])
+          let newLine = newNewStack[num[2]-1].concat(...stringToMove)
+          newNewStack[num[2]-1] = newLine
+        }
+        let res2 = newNewStack.map(el=>el.slice(-1))
+
+        day5[0] = res.join("");
+        day5[1] = res2.join("");
+      }
+      return day5;
+
     default:
       break;
   }
