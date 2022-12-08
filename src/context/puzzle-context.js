@@ -156,35 +156,58 @@ function puzzleFunc(array, day) {
             stack[i][letter] !== " " && newStack[index].push(stack[i][letter]);
           });
         }
-        let newNewStack = JSON.parse(JSON.stringify(newStack))
-        
+        let newNewStack = JSON.parse(JSON.stringify(newStack));
+
         for (let i = 0; i < moves.length; i++) {
           let result = moves[i].match(/\d+/g);
-          let num = result.map((e) => Number(e))
-          let stringToMove = newStack[num[1]-1].splice(-num[0]).reverse()
-          let newLine = newStack[num[2]-1].concat(...stringToMove)
-          newStack[num[2]-1] = newLine
+          let num = result.map((e) => Number(e));
+          let stringToMove = newStack[num[1] - 1].splice(-num[0]).reverse();
+          let newLine = newStack[num[2] - 1].concat(...stringToMove);
+          newStack[num[2] - 1] = newLine;
         }
-        let res = newStack.map(el=>el.slice(-1))
-        
+        let res = newStack.map((el) => el.slice(-1));
+
         //second task
         for (let i = 0; i < moves.length; i++) {
           let result = moves[i].match(/\d+/g);
-          let num = result.map((e) => Number(e))
-          let stringToMove = newNewStack[num[1]-1].splice(-num[0])
-          let newLine = newNewStack[num[2]-1].concat(...stringToMove)
-          newNewStack[num[2]-1] = newLine
+          let num = result.map((e) => Number(e));
+          let stringToMove = newNewStack[num[1] - 1].splice(-num[0]);
+          let newLine = newNewStack[num[2] - 1].concat(...stringToMove);
+          newNewStack[num[2] - 1] = newLine;
         }
-        let res2 = newNewStack.map(el=>el.slice(-1))
+        let res2 = newNewStack.map((el) => el.slice(-1));
 
         day5[0] = res.join("");
         day5[1] = res2.join("");
       }
       return day5;
 
+    case 6:
+      let day6 = [null, null];
+      {
+        function findIndexOfMarker(data, size) {
+          let entry = data[0];
+          let markersIndex;
+          for (let i = size - 1; i < entry.length; i++) {
+            let uniqueSet = [...new Set(entry.slice(i - size + 1, i + 1))];
+            if (uniqueSet.length === size) {
+              markersIndex = i + 1;
+              break;
+            }
+          }
+          return markersIndex;
+        }
+        day6[0] = findIndexOfMarker(array, 4);
+        day6[1] = findIndexOfMarker(array, 14);
+      }
+      return day6;
+
     default:
       break;
   }
 }
+// testing
+// let entry = "zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw"
+// puzzleFunc(entry, 6)
 
 export { puzzleFunc };
