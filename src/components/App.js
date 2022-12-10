@@ -14,6 +14,7 @@ function App() {
   donePuzzles[3] = true
   donePuzzles[4] = true
   donePuzzles[5] = true
+  donePuzzles[7] = true
   return (
     <BrowserRouter>
       <h1>Advent of code 2022</h1>

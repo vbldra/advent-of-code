@@ -15,7 +15,9 @@ function PuzzleContainer(props) {
 
   return (
     <div className="InputField">
-      <p>Puzzle input. Day {props.day}</p>
+      <h2>Day {props.day}</h2>
+      <p><a href={`https://adventofcode.com/2022/day/${props.day}`} target="_blank">See full description</a></p>
+      <p>Paste your input data below:</p>
       <form onSubmit={handleSubmit}>
         <label>
           <textarea
