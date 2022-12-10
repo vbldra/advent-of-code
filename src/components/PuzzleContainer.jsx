@@ -1,6 +1,6 @@
 import React from "react";
 import Result from "./Result";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { puzzleFunc } from "../context/puzzle-context";
 
 function PuzzleContainer(props) {
@@ -11,12 +11,25 @@ function PuzzleContainer(props) {
     event.preventDefault();
     let arrayOfStrings = entry.split(`\n`);
     setResult(puzzleFunc(arrayOfStrings, props.day));
+    localStorage.setItem(`${props.day}-input`, JSON.stringify(entry));
   };
+
+  useEffect(() => {
+    const input = JSON.parse(localStorage.getItem(`${props.day}-input`));
+    input ? setEntry(input) : setEntry("");
+  }, [props.day]);
 
   return (
     <div className="InputField">
       <h2>Day {props.day}</h2>
-      <p><a href={`https://adventofcode.com/2022/day/${props.day}`} target="_blank">See full description</a></p>
+      <p>
+        <a
+          href={`https://adventofcode.com/2022/day/${props.day}`}
+          target="_blank"
+        >
+          See full description
+        </a>
+      </p>
       <p>Paste your input data below:</p>
       <form onSubmit={handleSubmit}>
         <label>
@@ -27,7 +40,7 @@ function PuzzleContainer(props) {
             onChange={(e) => setEntry(e.target.value)}
           />
         </label>
-        <button type="submit" >Show result</button>
+        <button type="submit">Show result</button>
       </form>
       {result ? <Result result={result} /> : <p>No answer</p>}
     </div>
