@@ -202,12 +202,149 @@ function puzzleFunc(array, day) {
       }
       return day6;
 
+    case 7:
+      // NOT WORKING GOOD
+      let day7 = [null, null];
+      {
+        let sum = {};
+        let structure = { "/": {} };
+        let index = 0;
+        let currentPath = ["/"];
+        while (index < array.length) {
+          if (array[index].includes("$ cd")) {
+            if (array[index].includes("$ cd /")) {
+              currentPath = ["/"];
+            } else if (array[index].includes("$ cd ..")) {
+              currentPath.pop();
+            } else {
+              let currentFolder = array[index].replace("$ cd", "").trim();
+              currentPath.push(currentFolder);
+            }
+            index++;
+          } else if (array[index].includes("$ ls")) {
+            index++;
+            while (array[index] && array[index].includes("$") == false) {
+              let structurePath = structure;
+              currentPath.forEach((key) => {
+                structurePath = structurePath[key];
+              });
+              if (array[index].includes("dir")) {
+                let folder = array[index].replace("dir", "").trim();
+                structurePath[folder] = {};
+              } else {
+                let values = array[index].split(" ");
+                structurePath[String(values[1])] = Number(values[0]);
+                sum[currentPath] = sum[currentPath]
+                  ? sum[currentPath] + Number(values[0])
+                  : Number(values[0]);
+              }
+              index++;
+            }
+          }
+        }
+        function findSum(sum) {
+          let newSumObj = JSON.parse(JSON.stringify(sum));
+          let newKeys = Object.keys(newSumObj);
+          for (const key in sum) {
+            newKeys.map((e) => {
+              let shorterKey = e.split(",");
+              if (shorterKey.length > 1) {
+                shorterKey.pop();
+                shorterKey = shorterKey.join(",");
+              } else {
+                shorterKey = shorterKey.join(",");
+              }
+              if (key.includes(shorterKey)) {
+                newSumObj[e] = newSumObj[e] + sum[key];
+              }
+            });
+          }
+          const asArray = Object.values(newSumObj);
+          const filtered = asArray.filter((value) => value < 100000);
+          const totalSum = filtered.reduce(
+            (partialSum, a) => partialSum + a,
+            0
+          );
+          return totalSum;
+        }
+        console.log(findSum(sum));
+        // day7[0] = findIndexOfMarker(array, 4);
+        // day7[1] = findIndexOfMarker(array, 14);
+      }
+      return day7;
+
+    case 8:
+      let day8 = [null, null];
+      {
+        let arrayOfNum = [];
+        for (let i = 0; i < array.length; i++) {
+          arrayOfNum.push(array[i].split("").map((e) => Number(e)));
+        }
+        // creating a reversed copy of array for easy measurements
+        let arrayOfNumReversed = Array(arrayOfNum[0].length).fill(
+          Array(arrayOfNum.length).fill(null)
+        );
+        arrayOfNumReversed = JSON.parse(JSON.stringify(arrayOfNumReversed));
+        for (let i = 0; i < arrayOfNum.length; i++) {
+          for (let j = 0; j < arrayOfNum[i].length; j++) {
+            arrayOfNumReversed[j][i] = arrayOfNum[i][j];
+          }
+        }
+        // sum of visible trees for 1 task (default all trees on the perimeter)
+        let sumOfVisible =
+          arrayOfNum[0].length * 2 + (arrayOfNum.length - 2) * 2;
+        // default highest scenic score
+        let highestScenicScore = 1;
+        for (let i = 1; i < arrayOfNum.length - 1; i++) {
+          for (let j = 1; j < arrayOfNum[i].length - 1; j++) {
+            let current = arrayOfNum[i][j];
+            let top = arrayOfNumReversed[j].slice(0, i).reverse();
+            let right = arrayOfNum[i].slice(j + 1);
+            let bottom = arrayOfNumReversed[j].slice(i + 1);
+            let left = arrayOfNum[i].slice(0, j).reverse();
+            // 1 task
+            let max = [
+              Math.max(...top),
+              Math.max(...right),
+              Math.max(...bottom),
+              Math.max(...left),
+            ];
+            if (Math.min(...max) < current) {
+              sumOfVisible++;
+            }
+            // 2 task
+            let currentScoreArr = [0, 0, 0, 0];
+            let around = [top, right, bottom, left];
+            around.map((direction, index) => {
+              for (let k = 0; k < direction.length; k++) {
+                currentScoreArr[index]++;
+                if (direction[k] >= current) break;
+              }
+            });
+            let currentScore = currentScoreArr.reduce((a, b) => a * b);
+            highestScenicScore =
+              currentScore > highestScenicScore
+                ? currentScore
+                : highestScenicScore;
+          }
+        }
+        day8[0] = sumOfVisible;
+        day8[1] = highestScenicScore;
+      }
+      return day8;
+
     default:
       break;
   }
 }
 // testing
-// let entry = "zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw"
-// puzzleFunc(entry, 6)
+// let entry = `30373
+// 25512
+// 65332
+// 33549
+// 35390`;
+
+// let data = entry.split(`\n`);
+// puzzleFunc(data, 8);
 
 export { puzzleFunc };
