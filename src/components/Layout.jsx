@@ -1,16 +1,23 @@
 import React from "react";
-import { Outlet, Link } from "react-router-dom";
+import { Outlet, NavLink } from "react-router-dom";
 
 const Layout = (props) => {
+  let days = Object.keys(props.puzzles);
   return (
     <>
       <nav>
         <ul>
-          {props.days.map((day, ind) => {
+          {days.map((day) => {
             let path = `/day-${day}`;
             return (
-              <li className={props.done[ind] ? "done" : "not-done"} key={day}>
-                <Link to={path}>{day}</Link>
+              <li
+                className={props.puzzles[day] ? "done" : "not-done"}
+                key={day}
+              >
+                <NavLink
+                  to={path}
+                  activeclassname="selected"
+                >{`[${day}]`}</NavLink>
               </li>
             );
           })}

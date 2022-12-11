@@ -1,3 +1,16 @@
+let puzzles = {};
+for (let i = 1; i <= 24; i++) {
+  puzzles[i] = false;
+}
+puzzles[1] = true;
+puzzles[2] = true;
+puzzles[3] = true;
+puzzles[4] = true;
+puzzles[5] = true;
+puzzles[6] = true;
+// puzzles[7] = true;
+puzzles[8] = true;
+
 function puzzleFunc(array, day) {
   switch (day) {
     case 1:
@@ -41,7 +54,7 @@ function puzzleFunc(array, day) {
           el = el.replaceAll(/C|Z/g, 3);
           return el.split(" ").map((e) => Number(e));
         });
-        newArr.map((step) => {
+        newArr.forEach((step) => {
           // 1 task
           sum1 = sum1 + step[1];
           if (step[0] === step[1]) sum1 = sum1 + 3;
@@ -75,7 +88,7 @@ function puzzleFunc(array, day) {
         let sum2 = 0;
         let alphabetLow = "abcdefghijklmnopqrstuvwxyz";
         let alphabetStr = alphabetLow + alphabetLow.toUpperCase();
-        array.map((str) => {
+        array.forEach((str) => {
           let first = str.slice(0, str.length / 2);
           let second = str.slice(str.length / 2);
           for (let i = 0; i < first.length; i++) {
@@ -115,7 +128,7 @@ function puzzleFunc(array, day) {
           });
           return newGroup[0].concat(newGroup[1]);
         });
-        arrayOfNumbers.map((group) => {
+        arrayOfNumbers.forEach((group) => {
           let first = Math.sign(group[0] - group[2]);
           let second = Math.sign(group[1] - group[3]);
           if (first !== second || (first === 0 && second === 0)) {
@@ -123,7 +136,7 @@ function puzzleFunc(array, day) {
           }
         });
         //second task
-        arrayOfNumbers.map((group) => {
+        arrayOfNumbers.forEach((group) => {
           for (let i = group[0]; i <= group[1]; i++) {
             if (i >= group[2] && i <= group[3]) {
               sum2 = sum2 + 1;
@@ -152,7 +165,7 @@ function puzzleFunc(array, day) {
           }
         }
         for (let i = stack.length - 2; i >= 0; i--) {
-          indexes.map((letter, index) => {
+          indexes.forEach((letter, index) => {
             stack[i][letter] !== " " && newStack[index].push(stack[i][letter]);
           });
         }
@@ -202,8 +215,7 @@ function puzzleFunc(array, day) {
       }
       return day6;
 
-    case 7:
-      // NOT WORKING GOOD
+    case 7: // NOT WORKING
       let day7 = [null, null];
       {
         let sum = {};
@@ -223,7 +235,7 @@ function puzzleFunc(array, day) {
             index++;
           } else if (array[index].includes("$ ls")) {
             index++;
-            while (array[index] && array[index].includes("$") == false) {
+            while (array[index] && array[index].includes("$") === false) {
               let structurePath = structure;
               currentPath.forEach((key) => {
                 structurePath = structurePath[key];
@@ -246,7 +258,7 @@ function puzzleFunc(array, day) {
           let newSumObj = JSON.parse(JSON.stringify(sum));
           let newKeys = Object.keys(newSumObj);
           for (const key in sum) {
-            newKeys.map((e) => {
+            newKeys.forEach((e) => {
               let shorterKey = e.split(",");
               if (shorterKey.length > 1) {
                 shorterKey.pop();
@@ -315,7 +327,7 @@ function puzzleFunc(array, day) {
             // 2 task
             let currentScoreArr = [0, 0, 0, 0];
             let around = [top, right, bottom, left];
-            around.map((direction, index) => {
+            around.forEach((direction, index) => {
               for (let k = 0; k < direction.length; k++) {
                 currentScoreArr[index]++;
                 if (direction[k] >= current) break;
@@ -347,4 +359,4 @@ function puzzleFunc(array, day) {
 // let data = entry.split(`\n`);
 // puzzleFunc(data, 8);
 
-export { puzzleFunc };
+export { puzzleFunc, puzzles };

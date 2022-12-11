@@ -26,6 +26,7 @@ function PuzzleContainer(props) {
         <a
           href={`https://adventofcode.com/2022/day/${props.day}`}
           target="_blank"
+          rel="noopener noreferrer"
         >
           See full description
         </a>
