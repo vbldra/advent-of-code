@@ -24,6 +24,7 @@ function PuzzleContainer(props) {
       <h2>Day {props.day}</h2>
       <p>
         <a
+          className="link"
           href={`https://adventofcode.com/2022/day/${props.day}`}
           target="_blank"
           rel="noopener noreferrer"
@@ -32,18 +33,13 @@ function PuzzleContainer(props) {
         </a>
       </p>
       <p>Paste your input data below:</p>
-      <form onSubmit={handleSubmit}>
-        <label>
-          <textarea
-            rows="8"
-            cols="40"
-            value={entry}
-            onChange={(e) => setEntry(e.target.value)}
-          />
-        </label>
-        <button type="submit">Show result</button>
+      <form className="input-form" onSubmit={handleSubmit}>
+        <textarea value={entry} onChange={(e) => setEntry(e.target.value)} />
+        <button className="submit-btn" type="submit">
+          Show result
+        </button>
+        {result ? <Result result={result} /> : <p>No answer</p>}
       </form>
-      {result ? <Result result={result} /> : <p>No answer</p>}
     </div>
   );
 }

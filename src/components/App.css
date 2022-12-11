@@ -1,15 +1,80 @@
-nav ul{
-  display: flex;
+body {
+  background: #0f0f23;
+  font-family: "Source Sans Pro", sans-serif;
+  padding: 20px;
+  color: #cccccc;
 }
-nav li {
-  list-style-type: none;
-  padding: 5px 10px;
-  background: lightcyan;
-  margin-left: 2px;
-  border-radius: 2px;  
+h1 {
+  color: #009900;
+  font-size: 18pt;
+  margin: 0 0 20px 0;
 }
 
-.not-done {
+nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0;
+  margin: 0;
+}
+nav li {
+  flex-basis: 40px;
+  list-style-type: none;
+  margin-bottom: 10px;
+}
+nav li a {
+  text-decoration: none;
+  color: #cccccc;
+  font-size: 18px;
+}
+nav li a.active {
+  border-bottom: 1px solid #009900;
+}
+nav li.not-done a {
   pointer-events: none;
-    opacity: 0.4;
+  color: #666666;
+}
+
+.InputField .link {
+  /* text-decoration: none; */
+  color: #009900;
+}
+
+.input-form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.input-form textarea {
+  align-self: stretch;
+  height: 300px;
+  border: 1px solid #333340;
+  background: #10101a;
+  color: #cccccc;
+  overflow: auto;
+  resize: none;
+}
+.input-form textarea::-webkit-scrollbar {
+  width: 1em;
+}
+.input-form textarea::-webkit-scrollbar-track {
+  border-left: 1px solid #333340;
+}
+.input-form textarea::-webkit-scrollbar-thumb {
+  background-color: #666666;
+}
+.flex {
+  display: flex;
+}
+.submit-btn {
+  padding: 10px 20px;
+  margin: 10px 0;
+  background-color: #009900;
+  border: none;
+  border-radius: 2px;
+  color: #cccccc;
+}
+
+.Result p {
+  margin: 0px;
+  margin-bottom: 10px;
 }
