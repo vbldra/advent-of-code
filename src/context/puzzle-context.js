@@ -10,6 +10,7 @@ puzzles[5] = true;
 puzzles[6] = true;
 // puzzles[7] = true;
 puzzles[8] = true;
+puzzles[9] = true;
 
 function puzzleFunc(array, day) {
   switch (day) {
@@ -345,18 +346,87 @@ function puzzleFunc(array, day) {
       }
       return day8;
 
+    case 9:
+      let day9 = [null, null];
+      {
+        let steps = [];
+        let maxSum = { U: 1, R: 1, D: 1, L: 1 };
+        for (let i = 0; i < array.length; i++) {
+          steps.push(
+            array[i].split(" ").map((e, ind) => (ind === 1 ? Number(e) : e))
+          );
+        }
+        steps.forEach((step) => {
+          maxSum[step[0]] = maxSum[step[0]] + step[1];
+        });
+        let size = [maxSum["U"] + maxSum["D"], maxSum["L"] + maxSum["R"]];
+        let row = Array(size[1] + 1).fill(0);
+        let field = Array(size[0] + 1).fill(row);
+        field = JSON.parse(JSON.stringify(field));
+        let fieldAfter = JSON.parse(JSON.stringify(field));
+        let snailHead = [maxSum["U"], maxSum["L"]];
+        let snailTail = [maxSum["U"], maxSum["L"]];
+        
+        function moveSnail(dir) {
+          let where = {
+            U: [0, -1, snailHead[0] - snailTail[0], 0, 1],
+            D: [0, 1, snailHead[0] - snailTail[0], 0, -1],
+            L: [1, -1, snailHead[1] - snailTail[1], 1, -1],
+            R: [1, 1, snailHead[1] - snailTail[1], 1, 1],
+          };
+          let initialHead = JSON.parse(JSON.stringify(snailHead));
+
+          field[snailHead[0]][snailHead[1]] = 0;
+          field[snailTail[0]][snailTail[1]] = 0;
+
+          snailHead[where[dir][0]] = snailHead[where[dir][0]] + where[dir][1];
+
+          if (where[dir][2] === 2) {
+            snailTail[where[dir][3]] = snailTail[where[dir][3]] + where[dir][4];
+          }
+          if (
+            Math.abs(snailHead[0] - snailTail[0]) > 1 ||
+            Math.abs(snailHead[1] - snailTail[1]) > 1
+          ) {
+            snailTail[0] = initialHead[0];
+            snailTail[1] = initialHead[1];
+          }
+          field[snailHead[0]][snailHead[1]] = "H";
+          field[snailTail[0]][snailTail[1]] = "T";
+          fieldAfter[snailTail[0]][snailTail[1]] = "*"
+        }
+
+        for (let i = 0; i < steps.length; i++) {
+          field[snailHead[0]][snailHead[1]] = "H";
+          field[snailTail[0]][snailTail[1]] = "T";
+          for (let j = 1; j <= steps[i][1]; j++) {
+            moveSnail(steps[i][0]);
+          }
+        }
+        let sum = 0
+        fieldAfter.forEach(e => {
+          e.forEach(m=> m==="*" && sum++ )
+        })
+        day9[0] = sum;
+        // day9[1] = highestScenicScore;
+      }
+      return day9;
+
     default:
       break;
   }
 }
 // testing
-// let entry = `30373
-// 25512
-// 65332
-// 33549
-// 35390`;
+// let entry = `R 4
+// U 4
+// L 3
+// D 1
+// R 4
+// D 1
+// L 5
+// R 2`;
 
 // let data = entry.split(`\n`);
-// puzzleFunc(data, 8);
+// puzzleFunc(data, 9);
 
 export { puzzleFunc, puzzles };

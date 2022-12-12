@@ -17,6 +17,7 @@ function PuzzleContainer(props) {
   useEffect(() => {
     const input = JSON.parse(localStorage.getItem(`${props.day}-input`));
     input ? setEntry(input) : setEntry("");
+    setResult("", "");
   }, [props.day]);
 
   return (
@@ -38,7 +39,7 @@ function PuzzleContainer(props) {
         <button className="submit-btn" type="submit">
           Show result
         </button>
-        {result ? <Result result={result} /> : <p>No answer</p>}
+        {result ? <Result result={result} /> : <p>Press "Show results"</p>}
       </form>
     </div>
   );
