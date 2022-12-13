@@ -11,6 +11,7 @@ puzzles[6] = true;
 // puzzles[7] = true;
 puzzles[8] = true;
 puzzles[9] = true;
+puzzles[10] = true;
 
 function puzzleFunc(array, day) {
   switch (day) {
@@ -255,23 +256,37 @@ function puzzleFunc(array, day) {
             }
           }
         }
+
         function findSum(sum) {
           let newSumObj = JSON.parse(JSON.stringify(sum));
           let newKeys = Object.keys(newSumObj);
-          for (const key in sum) {
-            newKeys.forEach((e) => {
-              let shorterKey = e.split(",");
-              if (shorterKey.length > 1) {
-                shorterKey.pop();
-                shorterKey = shorterKey.join(",");
-              } else {
-                shorterKey = shorterKey.join(",");
-              }
-              if (key.includes(shorterKey)) {
-                newSumObj[e] = newSumObj[e] + sum[key];
-              }
-            });
+          // console.log(newSumObj);
+
+          // for (let i = newKeys.length - 1; i > 0; i--) {
+          //   for (let j = newKeys.length - 2; j > 0; j--) {
+          //     if (newKeys[i].includes(newKeys[j])) {
+          //       newSumObj[j] = newSumObj[j] + newSumObj[i];
+          //     }
+          //   }
+          // }
+
+          for (let i = newKeys.length - 1; i >= 0; i--) {
+            let sum = newSumObj[newKeys[i]];
+            let key = newKeys[i].split(",");
+            // console.log("----")
+            // console.log(newKeys[i])
+            if (key.length > 1) {
+              key.pop();
+              key = key.join(",");
+              newSumObj[key] += sum;
+            } else {
+              newSumObj[newKeys[i]] += sum;
+            }
+            key = newKeys[i].split(",");
+
+            // console.log(key)
           }
+
           const asArray = Object.values(newSumObj);
           const filtered = asArray.filter((value) => value < 100000);
           const totalSum = filtered.reduce(
@@ -280,7 +295,7 @@ function puzzleFunc(array, day) {
           );
           return totalSum;
         }
-        console.log(findSum(sum));
+        // console.log(findSum(sum));
         // day7[0] = findIndexOfMarker(array, 4);
         // day7[1] = findIndexOfMarker(array, 14);
       }
@@ -366,7 +381,7 @@ function puzzleFunc(array, day) {
         let fieldAfter = JSON.parse(JSON.stringify(field));
         let snailHead = [maxSum["U"], maxSum["L"]];
         let snailTail = [maxSum["U"], maxSum["L"]];
-        
+
         function moveSnail(dir) {
           let where = {
             U: [0, -1, snailHead[0] - snailTail[0], 0, 1],
@@ -393,7 +408,7 @@ function puzzleFunc(array, day) {
           }
           field[snailHead[0]][snailHead[1]] = "H";
           field[snailTail[0]][snailTail[1]] = "T";
-          fieldAfter[snailTail[0]][snailTail[1]] = "*"
+          fieldAfter[snailTail[0]][snailTail[1]] = "*";
         }
 
         for (let i = 0; i < steps.length; i++) {
@@ -403,30 +418,192 @@ function puzzleFunc(array, day) {
             moveSnail(steps[i][0]);
           }
         }
-        let sum = 0
-        fieldAfter.forEach(e => {
-          e.forEach(m=> m==="*" && sum++ )
-        })
+        let sum = 0;
+        fieldAfter.forEach((e) => {
+          e.forEach((m) => m === "*" && sum++);
+        });
         day9[0] = sum;
         // day9[1] = highestScenicScore;
       }
       return day9;
+
+    case 10:
+      let day10 = [null, null];
+      {
+        let cpuX = 1;
+        let cycles = 0;
+        let signals = 0;
+        array = array.map((e) => (e === "noop" ? "noop 1" : e));
+        for (let i = 0; i < array.length; i++) {
+          let current = array[i].split(" ").map((e, i) => (i === 1 ? +e : e));
+          for (let j = 1; j <= 2; j++) {
+            cycles++;
+            if (cycles % 40 === 20 && cycles <= 220) {
+              signals = signals + cycles * cpuX;
+            }
+            if (current[0] === "noop") break;
+          }
+          if (current[0] === "addx") cpuX += current[1];
+        }
+        // console.log(array);
+        day10[0] = signals;
+        // day10[1] = highestScenicScore;
+      }
+      return day10;
 
     default:
       break;
   }
 }
 // testing
-// let entry = `R 4
-// U 4
-// L 3
-// D 1
-// R 4
-// D 1
-// L 5
-// R 2`;
+// let entry = `addx 15
+// addx -11
+// addx 6
+// addx -3
+// addx 5
+// addx -1
+// addx -8
+// addx 13
+// addx 4
+// noop
+// addx -1
+// addx 5
+// addx -1
+// addx 5
+// addx -1
+// addx 5
+// addx -1
+// addx 5
+// addx -1
+// addx -35
+// addx 1
+// addx 24
+// addx -19
+// addx 1
+// addx 16
+// addx -11
+// noop
+// noop
+// addx 21
+// addx -15
+// noop
+// noop
+// addx -3
+// addx 9
+// addx 1
+// addx -3
+// addx 8
+// addx 1
+// addx 5
+// noop
+// noop
+// noop
+// noop
+// noop
+// addx -36
+// noop
+// addx 1
+// addx 7
+// noop
+// noop
+// noop
+// addx 2
+// addx 6
+// noop
+// noop
+// noop
+// noop
+// noop
+// addx 1
+// noop
+// noop
+// addx 7
+// addx 1
+// noop
+// addx -13
+// addx 13
+// addx 7
+// noop
+// addx 1
+// addx -33
+// noop
+// noop
+// noop
+// addx 2
+// noop
+// noop
+// noop
+// addx 8
+// noop
+// addx -1
+// addx 2
+// addx 1
+// noop
+// addx 17
+// addx -9
+// addx 1
+// addx 1
+// addx -3
+// addx 11
+// noop
+// noop
+// addx 1
+// noop
+// addx 1
+// noop
+// noop
+// addx -13
+// addx -19
+// addx 1
+// addx 3
+// addx 26
+// addx -30
+// addx 12
+// addx -1
+// addx 3
+// addx 1
+// noop
+// noop
+// noop
+// addx -9
+// addx 18
+// addx 1
+// addx 2
+// noop
+// noop
+// addx 9
+// noop
+// noop
+// noop
+// addx -1
+// addx 2
+// addx -37
+// addx 1
+// addx 3
+// noop
+// addx 15
+// addx -21
+// addx 22
+// addx -6
+// addx 1
+// noop
+// addx 2
+// addx 1
+// noop
+// addx -10
+// noop
+// noop
+// addx 20
+// addx 1
+// addx 2
+// addx 2
+// addx -6
+// addx -11
+// noop
+// noop
+// noop`;
 
 // let data = entry.split(`\n`);
-// puzzleFunc(data, 9);
+// puzzleFunc(data, 10);
 
 export { puzzleFunc, puzzles };
