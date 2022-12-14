@@ -430,24 +430,50 @@ function puzzleFunc(array, day) {
     case 10:
       let day10 = [null, null];
       {
+        // 1 task
         let cpuX = 1;
         let cycles = 0;
         let signals = 0;
-        array = array.map((e) => (e === "noop" ? "noop 1" : e));
+        // 2 task
+        let sprite = Array(40).fill();
+        sprite = sprite.map((e, i) => (i >= 0 && i <= 2 ? "#" : "."));
+        let spriteCoord = [0, 2];
+        let line = Array(40).fill("-");
+        let CRT = Array(6).fill(line);
+        CRT = JSON.parse(JSON.stringify(CRT));
+        let lineIndex = 0;
+        let index = 0;
         for (let i = 0; i < array.length; i++) {
           let current = array[i].split(" ").map((e, i) => (i === 1 ? +e : e));
           for (let j = 1; j <= 2; j++) {
             cycles++;
-            if (cycles % 40 === 20 && cycles <= 220) {
+            if (sprite[index] === "#") {
+              CRT[lineIndex][index] = "#";
+              index++;
+            } else {
+              CRT[lineIndex][index] = ".";
+              index++;
+            }
+            if (cycles % 40 === 20) {
               signals = signals + cycles * cpuX;
+            }
+            if (cycles % 40 === 0) {
+              lineIndex++;
+              index = 0;
             }
             if (current[0] === "noop") break;
           }
-          if (current[0] === "addx") cpuX += current[1];
+          if (current[0] === "addx") {
+            cpuX = cpuX + current[1];
+            let spriteInd = spriteCoord[0];
+            spriteCoord = [spriteInd + current[1], spriteInd + current[1] + 2];
+            sprite = sprite.map((e, i) =>
+              i >= spriteCoord[0] && i <= spriteCoord[1] ? "#" : "."
+            );
+          }
         }
-        // console.log(array);
         day10[0] = signals;
-        // day10[1] = highestScenicScore;
+        day10[1] = CRT;
       }
       return day10;
 
