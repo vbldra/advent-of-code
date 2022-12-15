@@ -4,7 +4,7 @@ function Result(props) {
   let answers = [];
   for (let i = 0; i < 2; i++) {
     console.log(props.result[i]);
-    if (props.result[i].length > 0 && typeof props.result[i] !== "number") {
+    if (props.result[i] && props.result[i].length > 0 && typeof props.result[i] !== "number") {
       let line = "";
       for (let j = 0; j < props.result[i].length; j++) {
         line = line + props.result[i][j].join("") + "\n";
@@ -30,8 +30,7 @@ function Result(props) {
             onClick={() => navigator.clipboard.writeText(result)}
             key={+i + 1}
           >
-            {i + 1} task:
-            {result ? result : "no answer"}
+            {i + 1} task: {result ? result : "no answer"}
           </div>
         );
       })}

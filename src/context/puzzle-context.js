@@ -12,6 +12,7 @@ puzzles[6] = true;
 puzzles[8] = true;
 puzzles[9] = true;
 puzzles[10] = true;
+puzzles[11] = true;
 
 function puzzleFunc(array, day) {
   switch (day) {
@@ -510,7 +511,7 @@ function puzzleFunc(array, day) {
             var start = array[step]
               .replace(/Starting items: /g, "")
               .split(", ")
-              .map((e) => BigInt(e));
+              .map((e) => +e);
             monkeys[currentMonkey]["initialStressLevel"] = start;
             step++;
             // New stress level
@@ -537,7 +538,7 @@ function puzzleFunc(array, day) {
           step++;
         }
         function stessed(monkeys, task) {
-          let currentRound = structuredClone(monkeys);
+          let currentRound = global.structuredClone(monkeys);
           let rounds = task === 1 ? 20 : 10000;
           for (let i = 1; i <= rounds; i++) {
             let monkeysList = Object.keys(currentRound);
