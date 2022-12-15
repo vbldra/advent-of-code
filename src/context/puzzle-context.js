@@ -220,81 +220,81 @@ function puzzleFunc(array, day) {
 
     case 7: // NOT WORKING
       let day7 = [null, null];
-      {
-        // let sum = {};
-        // let structure = { "/": {} };
-        // let index = 0;
-        // let currentPath = ["/"];
-        // while (index < array.length) {
-        //   if (array[index].includes("$ cd")) {
-        //     if (array[index].includes("$ cd /")) {
-        //       currentPath = ["/"];
-        //     } else if (array[index].includes("$ cd ..")) {
-        //       currentPath.pop();
-        //     } else {
-        //       let currentFolder = array[index].replace("$ cd", "").trim();
-        //       currentPath.push(currentFolder);
-        //     }
-        //     index++;
-        //   } else if (array[index].includes("$ ls")) {
-        //     index++;
-        //     while (array[index] && array[index].includes("$") === false) {
-        //       let structurePath = structure;
-        //       currentPath.forEach((key) => {
-        //         structurePath = structurePath[key];
-        //       });
-        //       if (array[index].includes("dir")) {
-        //         let folder = array[index].replace("dir", "").trim();
-        //         structurePath[folder] = {};
-        //       } else {
-        //         let values = array[index].split(" ");
-        //         structurePath[String(values[1])] = Number(values[0]);
-        //         sum[currentPath] = sum[currentPath]
-        //           ? sum[currentPath] + Number(values[0])
-        //           : Number(values[0]);
-        //       }
-        //       index++;
-        //     }
-        //   }
-        // }
-        // function findSum(sum) {
-        //   let newSumObj = JSON.parse(JSON.stringify(sum));
-        //   let newKeys = Object.keys(newSumObj);
-        //   // console.log(newSumObj);
-        //   // for (let i = newKeys.length - 1; i > 0; i--) {
-        //   //   for (let j = newKeys.length - 2; j > 0; j--) {
-        //   //     if (newKeys[i].includes(newKeys[j])) {
-        //   //       newSumObj[j] = newSumObj[j] + newSumObj[i];
-        //   //     }
-        //   //   }
-        //   // }
-        //   for (let i = newKeys.length - 1; i >= 0; i--) {
-        //     let sum = newSumObj[newKeys[i]];
-        //     let key = newKeys[i].split(",");
-        //     // console.log("----")
-        //     // console.log(newKeys[i])
-        //     if (key.length > 1) {
-        //       key.pop();
-        //       key = key.join(",");
-        //       newSumObj[key] += sum;
-        //     } else {
-        //       newSumObj[newKeys[i]] += sum;
-        //     }
-        //     key = newKeys[i].split(",");
-        //     // console.log(key)
-        //   }
-        //   const asArray = Object.values(newSumObj);
-        //   const filtered = asArray.filter((value) => value < 100000);
-        //   const totalSum = filtered.reduce(
-        //     (partialSum, a) => partialSum + a,
-        //     0
-        //   );
-        //   return totalSum;
-        // }
-        // console.log(findSum(sum));
-        // day7[0] = findIndexOfMarker(array, 4);
-        // day7[1] = findIndexOfMarker(array, 14);
-      }
+      // {
+      // let sum = {};
+      // let structure = { "/": {} };
+      // let index = 0;
+      // let currentPath = ["/"];
+      // while (index < array.length) {
+      //   if (array[index].includes("$ cd")) {
+      //     if (array[index].includes("$ cd /")) {
+      //       currentPath = ["/"];
+      //     } else if (array[index].includes("$ cd ..")) {
+      //       currentPath.pop();
+      //     } else {
+      //       let currentFolder = array[index].replace("$ cd", "").trim();
+      //       currentPath.push(currentFolder);
+      //     }
+      //     index++;
+      //   } else if (array[index].includes("$ ls")) {
+      //     index++;
+      //     while (array[index] && array[index].includes("$") === false) {
+      //       let structurePath = structure;
+      //       currentPath.forEach((key) => {
+      //         structurePath = structurePath[key];
+      //       });
+      //       if (array[index].includes("dir")) {
+      //         let folder = array[index].replace("dir", "").trim();
+      //         structurePath[folder] = {};
+      //       } else {
+      //         let values = array[index].split(" ");
+      //         structurePath[String(values[1])] = Number(values[0]);
+      //         sum[currentPath] = sum[currentPath]
+      //           ? sum[currentPath] + Number(values[0])
+      //           : Number(values[0]);
+      //       }
+      //       index++;
+      //     }
+      //   }
+      // }
+      // function findSum(sum) {
+      //   let newSumObj = JSON.parse(JSON.stringify(sum));
+      //   let newKeys = Object.keys(newSumObj);
+      //   // console.log(newSumObj);
+      //   // for (let i = newKeys.length - 1; i > 0; i--) {
+      //   //   for (let j = newKeys.length - 2; j > 0; j--) {
+      //   //     if (newKeys[i].includes(newKeys[j])) {
+      //   //       newSumObj[j] = newSumObj[j] + newSumObj[i];
+      //   //     }
+      //   //   }
+      //   // }
+      //   for (let i = newKeys.length - 1; i >= 0; i--) {
+      //     let sum = newSumObj[newKeys[i]];
+      //     let key = newKeys[i].split(",");
+      //     // console.log("----")
+      //     // console.log(newKeys[i])
+      //     if (key.length > 1) {
+      //       key.pop();
+      //       key = key.join(",");
+      //       newSumObj[key] += sum;
+      //     } else {
+      //       newSumObj[newKeys[i]] += sum;
+      //     }
+      //     key = newKeys[i].split(",");
+      //     // console.log(key)
+      //   }
+      //   const asArray = Object.values(newSumObj);
+      //   const filtered = asArray.filter((value) => value < 100000);
+      //   const totalSum = filtered.reduce(
+      //     (partialSum, a) => partialSum + a,
+      //     0
+      //   );
+      //   return totalSum;
+      // }
+      // console.log(findSum(sum));
+      // day7[0] = findIndexOfMarker(array, 4);
+      // day7[1] = findIndexOfMarker(array, 14);
+      // }
       return day7;
 
     case 8:
@@ -490,7 +490,7 @@ function puzzleFunc(array, day) {
               : operation[1] === "*"
               ? Number(first) * Number(second)
               : null;
-          final = task === 1 ? Math.floor(oper / 3) : oper
+          final = task === 1 ? Math.floor(oper / 3) : oper;
           return final;
         }
         while (step < array.length) {
@@ -552,7 +552,7 @@ function puzzleFunc(array, day) {
                   task
                 );
                 currentRound[curMonNum]["initialStressLevel"][k] = null;
-                if (final % curMon["test"] == 0) {
+                if (final % curMon["test"] === 0) {
                   currentRound[curMon["ifTrue"]]["initialStressLevel"].push(
                     final
                   );
