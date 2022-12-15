@@ -220,81 +220,76 @@ function puzzleFunc(array, day) {
     case 7: // NOT WORKING
       let day7 = [null, null];
       {
-        let sum = {};
-        let structure = { "/": {} };
-        let index = 0;
-        let currentPath = ["/"];
-        while (index < array.length) {
-          if (array[index].includes("$ cd")) {
-            if (array[index].includes("$ cd /")) {
-              currentPath = ["/"];
-            } else if (array[index].includes("$ cd ..")) {
-              currentPath.pop();
-            } else {
-              let currentFolder = array[index].replace("$ cd", "").trim();
-              currentPath.push(currentFolder);
-            }
-            index++;
-          } else if (array[index].includes("$ ls")) {
-            index++;
-            while (array[index] && array[index].includes("$") === false) {
-              let structurePath = structure;
-              currentPath.forEach((key) => {
-                structurePath = structurePath[key];
-              });
-              if (array[index].includes("dir")) {
-                let folder = array[index].replace("dir", "").trim();
-                structurePath[folder] = {};
-              } else {
-                let values = array[index].split(" ");
-                structurePath[String(values[1])] = Number(values[0]);
-                sum[currentPath] = sum[currentPath]
-                  ? sum[currentPath] + Number(values[0])
-                  : Number(values[0]);
-              }
-              index++;
-            }
-          }
-        }
-
-        function findSum(sum) {
-          let newSumObj = JSON.parse(JSON.stringify(sum));
-          let newKeys = Object.keys(newSumObj);
-          // console.log(newSumObj);
-
-          // for (let i = newKeys.length - 1; i > 0; i--) {
-          //   for (let j = newKeys.length - 2; j > 0; j--) {
-          //     if (newKeys[i].includes(newKeys[j])) {
-          //       newSumObj[j] = newSumObj[j] + newSumObj[i];
-          //     }
-          //   }
-          // }
-
-          for (let i = newKeys.length - 1; i >= 0; i--) {
-            let sum = newSumObj[newKeys[i]];
-            let key = newKeys[i].split(",");
-            // console.log("----")
-            // console.log(newKeys[i])
-            if (key.length > 1) {
-              key.pop();
-              key = key.join(",");
-              newSumObj[key] += sum;
-            } else {
-              newSumObj[newKeys[i]] += sum;
-            }
-            key = newKeys[i].split(",");
-
-            // console.log(key)
-          }
-
-          const asArray = Object.values(newSumObj);
-          const filtered = asArray.filter((value) => value < 100000);
-          const totalSum = filtered.reduce(
-            (partialSum, a) => partialSum + a,
-            0
-          );
-          return totalSum;
-        }
+        // let sum = {};
+        // let structure = { "/": {} };
+        // let index = 0;
+        // let currentPath = ["/"];
+        // while (index < array.length) {
+        //   if (array[index].includes("$ cd")) {
+        //     if (array[index].includes("$ cd /")) {
+        //       currentPath = ["/"];
+        //     } else if (array[index].includes("$ cd ..")) {
+        //       currentPath.pop();
+        //     } else {
+        //       let currentFolder = array[index].replace("$ cd", "").trim();
+        //       currentPath.push(currentFolder);
+        //     }
+        //     index++;
+        //   } else if (array[index].includes("$ ls")) {
+        //     index++;
+        //     while (array[index] && array[index].includes("$") === false) {
+        //       let structurePath = structure;
+        //       currentPath.forEach((key) => {
+        //         structurePath = structurePath[key];
+        //       });
+        //       if (array[index].includes("dir")) {
+        //         let folder = array[index].replace("dir", "").trim();
+        //         structurePath[folder] = {};
+        //       } else {
+        //         let values = array[index].split(" ");
+        //         structurePath[String(values[1])] = Number(values[0]);
+        //         sum[currentPath] = sum[currentPath]
+        //           ? sum[currentPath] + Number(values[0])
+        //           : Number(values[0]);
+        //       }
+        //       index++;
+        //     }
+        //   }
+        // }
+        // function findSum(sum) {
+        //   let newSumObj = JSON.parse(JSON.stringify(sum));
+        //   let newKeys = Object.keys(newSumObj);
+        //   // console.log(newSumObj);
+        //   // for (let i = newKeys.length - 1; i > 0; i--) {
+        //   //   for (let j = newKeys.length - 2; j > 0; j--) {
+        //   //     if (newKeys[i].includes(newKeys[j])) {
+        //   //       newSumObj[j] = newSumObj[j] + newSumObj[i];
+        //   //     }
+        //   //   }
+        //   // }
+        //   for (let i = newKeys.length - 1; i >= 0; i--) {
+        //     let sum = newSumObj[newKeys[i]];
+        //     let key = newKeys[i].split(",");
+        //     // console.log("----")
+        //     // console.log(newKeys[i])
+        //     if (key.length > 1) {
+        //       key.pop();
+        //       key = key.join(",");
+        //       newSumObj[key] += sum;
+        //     } else {
+        //       newSumObj[newKeys[i]] += sum;
+        //     }
+        //     key = newKeys[i].split(",");
+        //     // console.log(key)
+        //   }
+        //   const asArray = Object.values(newSumObj);
+        //   const filtered = asArray.filter((value) => value < 100000);
+        //   const totalSum = filtered.reduce(
+        //     (partialSum, a) => partialSum + a,
+        //     0
+        //   );
+        //   return totalSum;
+        // }
         // console.log(findSum(sum));
         // day7[0] = findIndexOfMarker(array, 4);
         // day7[1] = findIndexOfMarker(array, 14);
@@ -477,159 +472,130 @@ function puzzleFunc(array, day) {
       }
       return day10;
 
+    case 11:
+      let day11 = [null, null];
+      {
+        let monkeys = {};
+        let currentMonkey = 0;
+        let step = 0;
+
+        function finalStressLevel(initial, operation, task) {
+          let final;
+          let first = operation[0] === "old" && initial;
+          let second = operation[2] === "old" ? initial : operation[2];
+          let oper =
+            operation[1] === "+"
+              ? Number(first) + Number(second)
+              : operation[1] === "*"
+              ? Number(first) * Number(second)
+              : null;
+          final = task === 1 ? Math.floor(oper / 3) : oper
+          return final;
+        }
+        while (step < array.length) {
+          if (array[step].includes("Monkey")) {
+            // Monkey num
+            let monkNum = array[step].split(" ");
+            currentMonkey = monkNum[1].slice(0, -1);
+            monkeys[currentMonkey] = {
+              initialStressLevel: [],
+              newStressLevel: [],
+              test: "",
+              ifTrue: null,
+              ifFalse: null,
+              inspected: 0,
+            };
+            step++;
+            // Initial stress level
+            var start = array[step]
+              .replace(/Starting items: /g, "")
+              .split(", ")
+              .map((e) => BigInt(e));
+            monkeys[currentMonkey]["initialStressLevel"] = start;
+            step++;
+            // New stress level
+            let operation = array[step].replace(/Operation: new = /g, "");
+            operation = operation.split(" ");
+            monkeys[currentMonkey]["newStressLevel"] = operation;
+            step++;
+            // Test
+            let test = array[step].replace(/Test: divisible by /g, "");
+            monkeys[currentMonkey]["test"] = +test;
+            step++;
+            let testPassed = array[step].replace(
+              /If true: throw to monkey /g,
+              ""
+            );
+            monkeys[currentMonkey]["ifTrue"] = +testPassed;
+            step++;
+            let testFailed = array[step].replace(
+              /If false: throw to monkey /g,
+              ""
+            );
+            monkeys[currentMonkey]["ifFalse"] = +testFailed;
+          }
+          step++;
+        }
+        function stessed(monkeys, task) {
+          let currentRound = structuredClone(monkeys);
+          let rounds = task === 1 ? 20 : 10000;
+          for (let i = 1; i <= rounds; i++) {
+            let monkeysList = Object.keys(currentRound);
+            for (let j = 0; j < monkeysList.length; j++) {
+              let curMonNum = monkeysList[j];
+              let curMon = currentRound[curMonNum];
+              for (let k = 0; k < curMon["initialStressLevel"].length; k++) {
+                let final = finalStressLevel(
+                  curMon["initialStressLevel"][k],
+                  curMon["newStressLevel"],
+                  task
+                );
+                currentRound[curMonNum]["initialStressLevel"][k] = null;
+                if (final % curMon["test"] == 0) {
+                  currentRound[curMon["ifTrue"]]["initialStressLevel"].push(
+                    final
+                  );
+                } else {
+                  currentRound[curMon["ifFalse"]]["initialStressLevel"].push(
+                    final
+                  );
+                }
+                curMon["inspected"]++;
+              }
+            }
+            for (const key in currentRound) {
+              currentRound[key]["initialStressLevel"] = currentRound[key][
+                "initialStressLevel"
+              ].filter((e) => e !== null);
+            }
+          }
+          let inspected = [];
+          for (const key in currentRound) {
+            inspected.push(currentRound[key]["inspected"]);
+          }
+          // console.log(inspected)
+          let sorted = inspected.sort(function(a, b) {
+            return b - a;
+          });
+          return sorted[0] * sorted[1];
+        }
+        let stressedSum = stessed(monkeys, 1);
+        // For second task maximum BigInt size exceeded :'(
+        // let notStressedSum = stessed(monkeys, 2);
+
+        day11[0] = stressedSum;
+        // day11[1];
+      }
+      return day11;
+
     default:
       break;
   }
 }
 // testing
-// let entry = `addx 15
-// addx -11
-// addx 6
-// addx -3
-// addx 5
-// addx -1
-// addx -8
-// addx 13
-// addx 4
-// noop
-// addx -1
-// addx 5
-// addx -1
-// addx 5
-// addx -1
-// addx 5
-// addx -1
-// addx 5
-// addx -1
-// addx -35
-// addx 1
-// addx 24
-// addx -19
-// addx 1
-// addx 16
-// addx -11
-// noop
-// noop
-// addx 21
-// addx -15
-// noop
-// noop
-// addx -3
-// addx 9
-// addx 1
-// addx -3
-// addx 8
-// addx 1
-// addx 5
-// noop
-// noop
-// noop
-// noop
-// noop
-// addx -36
-// noop
-// addx 1
-// addx 7
-// noop
-// noop
-// noop
-// addx 2
-// addx 6
-// noop
-// noop
-// noop
-// noop
-// noop
-// addx 1
-// noop
-// noop
-// addx 7
-// addx 1
-// noop
-// addx -13
-// addx 13
-// addx 7
-// noop
-// addx 1
-// addx -33
-// noop
-// noop
-// noop
-// addx 2
-// noop
-// noop
-// noop
-// addx 8
-// noop
-// addx -1
-// addx 2
-// addx 1
-// noop
-// addx 17
-// addx -9
-// addx 1
-// addx 1
-// addx -3
-// addx 11
-// noop
-// noop
-// addx 1
-// noop
-// addx 1
-// noop
-// noop
-// addx -13
-// addx -19
-// addx 1
-// addx 3
-// addx 26
-// addx -30
-// addx 12
-// addx -1
-// addx 3
-// addx 1
-// noop
-// noop
-// noop
-// addx -9
-// addx 18
-// addx 1
-// addx 2
-// noop
-// noop
-// addx 9
-// noop
-// noop
-// noop
-// addx -1
-// addx 2
-// addx -37
-// addx 1
-// addx 3
-// noop
-// addx 15
-// addx -21
-// addx 22
-// addx -6
-// addx 1
-// noop
-// addx 2
-// addx 1
-// noop
-// addx -10
-// noop
-// noop
-// addx 20
-// addx 1
-// addx 2
-// addx 2
-// addx -6
-// addx -11
-// noop
-// noop
-// noop`;
+// let entry = ``;
 
 // let data = entry.split(`\n`);
-// puzzleFunc(data, 10);
+// puzzleFunc(data, 11);
 
 export { puzzleFunc, puzzles };

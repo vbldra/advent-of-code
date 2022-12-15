@@ -2,7 +2,7 @@
 JavaScript solutions to the [Advent of Code](https://adventofcode.com)
 
 ## 2022 year
-⭐️⭐️ (7) ⭐️ (1)
+⭐️⭐️ (8) ⭐️ (2)
 
 To calculate your results check
 [the live version](https://vbldra-advent-of-code.netlify.app/) (React)
