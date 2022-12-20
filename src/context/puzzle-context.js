@@ -13,6 +13,7 @@ puzzles[8] = true;
 puzzles[9] = true;
 puzzles[10] = true;
 puzzles[11] = true;
+puzzles[13] = true;
 
 function puzzleFunc(array, day) {
   switch (day) {
@@ -589,6 +590,72 @@ function puzzleFunc(array, day) {
       }
       return day11;
 
+    case 12:
+      let day12 = [null, null];
+      {
+        // day12[0] = signals;
+        // day12[1] = CRT;
+      }
+      return day12;
+
+    case 13:
+      let day13 = [null, null];
+      {
+        let pairs = [];
+        let onePair = [];
+        let rightOrders = [];
+        array.forEach((element) => {
+          if (element !== "") {
+            onePair.push(JSON.parse(element));
+          } else {
+            pairs.push(onePair);
+            onePair = [];
+          }
+        });
+        pairs.push(onePair);
+
+        function compare(el1, el2, count) {
+          if (typeof el1 === "number" && typeof el2 === "number") {
+            if (el1 < el2) {
+              rightOrders.push(count);
+              return;
+            } else if (el1 > el2) {
+              return;
+            }
+            return 1
+          } else {
+            if (typeof el1 === "number") el1 = [el1];
+            if (typeof el2 === "number") el2 = [el2];
+
+            let maxLength = Math.max(el1.length, el2.length);
+            for (let i = 0; i < maxLength; i++) {
+              if (typeof el1[i] !== "undefined" && typeof el2[i] !== "undefined") {
+                if (el1[i].length === 0 && el2[i].length === 0) {
+                  continue
+                } else {
+                  let isFinished = compare(el1[i], el2[i], count);
+                  if (!isFinished) break;
+                }
+              } else if (typeof el1[i] === "undefined") {
+                rightOrders.push(count);
+                break;
+              } else if (typeof el2[i] === "undefined") {
+                break;
+              }
+            }
+          }
+        }
+        for (let i = 0; i < pairs.length; i++) {
+          let count = i + 1;
+          compare(pairs[i][0], pairs[i][1], count);
+        }
+        const sum = rightOrders.reduce((partialSum, a) => partialSum + a, 0);
+
+        day13[0] = sum;
+        // day13[1] = CRT;
+      }
+      return day13;
+
     default:
       break;
   }
@@ -597,6 +664,6 @@ function puzzleFunc(array, day) {
 // let entry = ``;
 
 // let data = entry.split(`\n`);
-// puzzleFunc(data, 11);
+// puzzleFunc(data, 13);
 
 export { puzzleFunc, puzzles };
